@@ -5,26 +5,16 @@ import (
 )
 
 type FamilyAccount struct {
-	//定义账号和密码
 	acc string
 	pwd string
-	//定义一个变量接收用户的选择
 	key string
-	//声明一个变量，控制是否退出for循环
-	loop bool //默认为真，可以一直循环
-	//定义账户余额banance
+	loop bool 
 	balance float64
-	//定义每次收支的金额
 	money float64
-	//定义每次收支说明
 	note string
-	//定义一个变量，记录是否有收支行为
-	flag bool //假定初始情况下是没有收支行为的
-	//收支的详情使用字符串来记录，当有收支时，只需要对details进行拼接处理即可
+	flag bool 
 	details string
 }
-
-//考虑到这个结构体首字母可能是小写的，所以编写一个“工厂模式”的方法，返回一个*FamilyAccount
 func NewFamilyAccount() *FamilyAccount {
 	return &FamilyAccount{ //要附初始值
 		acc:     "",
@@ -41,8 +31,8 @@ func NewFamilyAccount() *FamilyAccount {
 
 //登录账号和密码
 func (this *FamilyAccount) mima() {
-	var n int = 3 //一共有登录次数3次
-	var i int = 1 //登录几次
+	var n int = 3 
+	var i int = 1 
 	choice1 := ""
 	for {
 		fmt.Println("请输入账号")
@@ -75,8 +65,6 @@ func (this *FamilyAccount) mima() {
 	}
 
 }
-
-//1、将显示明细写成一个方法（封装）
 func (this *FamilyAccount) showDetails() {
 	fmt.Println("----------当前收支明细记录----------")
 	if this.flag {
@@ -86,7 +74,6 @@ func (this *FamilyAccount) showDetails() {
 	}
 }
 
-//2、将登记收入也写成一个方法
 func (this *FamilyAccount) income() {
 	fmt.Println("本次收入金额：")
 	fmt.Scanln(&this.money)
@@ -98,7 +85,6 @@ func (this *FamilyAccount) income() {
 	this.flag = true
 }
 
-//3、支出
 func (this *FamilyAccount) outcome() {
 	fmt.Println("本次支出金额：")
 	fmt.Scanln(&this.money)
@@ -106,16 +92,14 @@ func (this *FamilyAccount) outcome() {
 	if this.money > this.balance {
 		fmt.Printf("余额不足，请重新输入，余额剩余为%v\n", this.balance)
 	}
-	this.balance -= this.money //记录账户余额也会发生变化
+	this.balance -= this.money 
 	fmt.Println("本次支出说明：")
 	fmt.Scanln(&this.note)
-	//要将这个“支出”情况，拼接到details变量
 	this.details += fmt.Sprintf("\n支出\t%v\t%v\t%v", this.balance, this.money, this.note)
 	fmt.Println("----------登记完成----------")
 	this.flag = true
 }
 
-//4、退出
 func (this *FamilyAccount) quit() {
 	fmt.Println("您确定要退出么?：y/n")
 	choice := ""
